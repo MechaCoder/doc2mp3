@@ -1,5 +1,8 @@
 import click
 from rich.console import Console
+from rich.live import Live
+
+from psutil import cpu_percent
 
 from doc.data import Pdf, TextData, Settings
 from doc.extractor.pdf import convertPDF
@@ -19,7 +22,8 @@ def convert(path):
 
     if pdfData.exists('path', path) == False:
 
-        with con.status('importing data into system!'):
+        # with con.status('importing data into system!'):
+        with Live(f'importing data into system! :: CPU process {cpu_percent()}%', refresh_per_second=4):
             tag = pdfData.create(path) #  adds the the file to the system
             convertPDF(path, tag) #  converts the pdf to text
 

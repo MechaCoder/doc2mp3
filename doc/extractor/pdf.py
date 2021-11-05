@@ -4,6 +4,7 @@ from pdf2image import convert_from_path
 from pytesseract import image_to_string
 
 from doc.data import Pdf, TextData, Settings
+from doc.utills import sleepy
 
 def convertPDF(src:str, tag:str):
 
@@ -38,6 +39,7 @@ def convertPDF(src:str, tag:str):
                 continue
             
             print(f'adding to: {tag} page {len(docIds)}')
+            sleepy()
             doc = objtxt.create(
                 tag,
                 len(docIds),

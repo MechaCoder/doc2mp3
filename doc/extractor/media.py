@@ -8,6 +8,7 @@ from gtts import gTTS
 from gtts.tts import gTTSError
 from pyttsx3 import init
 from rich.console import Console
+from rich.live import Live
 
 
 class Media:
@@ -24,11 +25,10 @@ class Media:
 
         fnList = []
 
-        with con.status(f'converting files useing {ttsEngine} ...'):
+        with Live(f'converting files useing {ttsEngine} ...', refresh_per_second=1):
             for doc in obj.readAllByDoc(tag):
 
                 fn = join(dirPath, f'{tag}-{doc["pageOn"]}.mp3')
-                con.status(f'converting: {fn}')
 
                 if ttsEngine == 'gtts':
                     try: #  gtts makes use of the google's tts and may fault becouse there are too many requests over a short space of time
@@ -36,6 +36,7 @@ class Media:
                         tts.save(fn)
                         continue
                     except gTTSError as err:
+                        print(err)
                         ttsEngine = 'pyttsx3'
                 
                 if ttsEngine == 'pyttsx3':
@@ -47,7 +48,6 @@ class Media:
                 sleepy()
 
                 fnList.append(fn)
-                con.print(f'converted {fn}')
         return fnList
 
             
