@@ -23,7 +23,7 @@ def convertPDF(src:str, tag:str):
             output_folder=path,
             fmt='jpeg'
         )
-        
+
         docIds = []
 
         for Img in imgs:
@@ -36,6 +36,7 @@ def convertPDF(src:str, tag:str):
             if objtxt.exists('pageOn', len(docIds)) and objtxt.exists('docTag', tag):
                 # check to make sure that page dose not already exists
                 continue
+            
             print(f'adding to: {tag} page {len(docIds)}')
             doc = objtxt.create(
                 tag,
