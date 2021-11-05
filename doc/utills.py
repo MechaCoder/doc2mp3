@@ -26,7 +26,7 @@ def sleepy():
     sObj = Settings()
     sleep(sObj.get('sleep-time'))
     cpu = cpu_percent()
-    print(f'CPU running at {cpu}%')
+    # print(f'CPU running at {cpu}%')
     if cpu >= 75: #  if the CPU is running about 75% or above sleep more.
         sleep(sObj.get('sleep-time') * 2)
     return True

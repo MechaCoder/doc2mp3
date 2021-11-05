@@ -5,6 +5,7 @@ from doc.data.settings import voice
 from doc.data.settings.data import Settings
 from doc.utills import checkPath, sleepy
 from gtts import gTTS
+from gtts.tts import gTTSError
 from pyttsx3 import init
 from rich.console import Console
 
@@ -30,9 +31,12 @@ class Media:
                 con.status(f'converting: {fn}')
 
                 if ttsEngine == 'gtts':
-                    tts = gTTS(doc['content'])
-                    tts.save(fn)
-                    continue
+                    try: #  gtts makes use of the google's tts and may fault becouse there are too many requests over a short space of time
+                        tts = gTTS(doc['content'])
+                        tts.save(fn)
+                        continue
+                    except gTTSError as err:
+                        ttsEngine = 'pyttsx3'
                 
                 if ttsEngine == 'pyttsx3':
                     tts = init()
