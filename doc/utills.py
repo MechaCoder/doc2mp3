@@ -4,6 +4,7 @@ from os.path import isdir, abspath, dirname, join
 from time import sleep
 
 from psutil import cpu_percent
+from requests import get
 
 from doc.data.settings import Settings
 
@@ -29,4 +30,11 @@ def sleepy():
     # print(f'CPU running at {cpu}%')
     if cpu >= 75: #  if the CPU is running about 75% or above sleep more.
         sleep(sObj.get('sleep-time') * 2)
+    return True
+
+def downloadFileFromURL(url:str, fname:str):
+    req = get(url, allow_redirects=True)
+    f = open(fname, 'wb')
+    f.write(req.content)
+    f.close()
     return True

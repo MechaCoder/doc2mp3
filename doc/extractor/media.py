@@ -3,12 +3,14 @@ from time import sleep
 from doc.data import TextData
 from doc.data.settings import voice
 from doc.data.settings.data import Settings
-from doc.utills import checkPath, sleepy
+from doc.utills import checkPath, sleepy, downloadFileFromURL
 from gtts import gTTS
 from gtts.tts import gTTSError
 from pyttsx3 import init
 from rich.console import Console
 from rich.live import Live
+# from apiaudio import Speech, Script, api_key
+import apiaudio
 
 
 class Media:
@@ -44,6 +46,22 @@ class Media:
                     tts.setProperty('voice', engineVoice)
                     tts.save_to_file(doc['content'], fn)
                     tts.runAndWait()
+
+                if ttsEngine == 'audio':
+                    apiaudio.api_key = '3484a8edb7d94dbe993c4b4a86790ab8'
+
+                    scriptTxt = apiaudio.Script().create(
+                        scriptText=doc['content'],
+                        scriptName='render',
+                        moduleName='one',
+                        projectName='one'
+                    )
+                    tts = apiaudio.Speech().create(
+                        scriptId=scriptTxt.get('scriptId'),
+                        voice="Aria"
+                    )
+
+                    downloadFileFromURL(tts['default']['url'], fn)
                 
                 sleepy()
 

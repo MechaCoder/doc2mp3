@@ -15,6 +15,7 @@ pyttsx3 = "*"
 gtts = "*"
 psutil = "*"
 pypdf4 = "*"
+requests = "*"
 
 [requires]
 python_version = "3.7"
