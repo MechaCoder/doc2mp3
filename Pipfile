@@ -16,6 +16,7 @@ gtts = "*"
 psutil = "*"
 pypdf4 = "*"
 requests = "*"
+faker = "*"
 
 [requires]
 python_version = "3.7"

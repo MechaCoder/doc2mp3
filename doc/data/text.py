@@ -18,6 +18,7 @@ class TextData(Base):
             'docTag': doc,
             'content': content
         }
+        db.close()
         return super().create(row)
 
 
