@@ -17,6 +17,7 @@ psutil = "*"
 pypdf4 = "*"
 requests = "*"
 faker = "*"
+pyinstrument = "*"
 
 [requires]
 python_version = "3.7"
