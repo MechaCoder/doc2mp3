@@ -12,29 +12,29 @@ from doc.extractor.media import Media
 @click.group()
 def cli(): pass
 
-@cli.command()
+@cli.group()
+def media(): pass
+
+@media.command()
 @click.argument('path', type=click.Path(exists=True, file_okay=True, dir_okay=False))
 def convert(path):
     """converts a pdf to mp3"""
     pdfData = Pdf()
-    txtData = TextData()
     con = Console()
 
     if pdfData.exists('path', path) == False:
-
-        # with con.status('importing data into system!'):
-        with Live(f'importing data into system! :: CPU process {cpu_percent()}%', refresh_per_second=4):
-            tag = pdfData.create(path) #  adds the the file to the system
-            convertPDF(path, tag) #  converts the pdf to text
+        pdfData.create(path)
 
     doc = pdfData.readByPath(path)
-    if txtData.exists('docTag', doc['key']) == False:
-        with con.status('importing information from file'):
-            doc = pdfData.readByPath(path)
-            convertPDF(path, doc['key'])
+    convertPDF(path, doc['key'])
 
-    Media().ExportPage(doc['key'])
-    con.print('Finshed')
+    con.print('Finshed converting')
+
+@media.command()
+@click.argument('tag', type=click.Choice(Pdf().readTags()))
+def export(tag): 
+    Media().ExportPage(tag)
+    pass
 
 @cli.command()
 @click.argument('tag', type=click.Choice(Settings().getTags()))

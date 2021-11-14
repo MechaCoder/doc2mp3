@@ -24,17 +24,13 @@ def checkPath(docTag:str):
 
 
 def sleepy():
-
-    print('sleep function')
-
     sObj = Settings()
     val = sObj.get('sleep-time')
     sleep(val)
     # cpu = cpu_percent()
     if cpu_percent() >= 75: #  if the CPU is running about 75% or above sleep more.
         sleep(val)
-
-    print('sleep fuction finsished')
+    
     return True
 
 def downloadFileFromURL(url:str, fname:str):
