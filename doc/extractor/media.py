@@ -1,5 +1,7 @@
 from posixpath import join
 from time import sleep
+from psutil import cpu_percent
+
 from doc.data import TextData
 from doc.data.settings import voice
 from doc.data.settings.data import Settings
@@ -9,6 +11,7 @@ from gtts.tts import gTTSError
 from pyttsx3 import init
 from rich.console import Console
 from rich.live import Live
+
 # from apiaudio import Speech, Script, api_key
 import apiaudio
 
@@ -27,7 +30,7 @@ class Media:
 
         fnList = []
 
-        with Live(f'converting files useing {ttsEngine} ...', refresh_per_second=1):
+        with Live(f'converting files useing {ttsEngine} running at {cpu_percent()}%', refresh_per_second=1):
             for doc in obj.readAllByDoc(tag):
 
                 fn = join(dirPath, f'{tag}-{doc["pageOn"]}.mp3')

@@ -3,13 +3,17 @@ from time import sleep
 from pdf2image import convert_from_path
 from pytesseract import image_to_string
 
+from timeit import timeit
+
 from doc.data import Pdf, TextData, Settings
-from doc.utills import sleepy
+from doc.utills import sleepy, getPdfPagesAmount
 
 def convertPDF(src:str, tag:str):
 
     objpdf = Pdf()
     objtxt = TextData()
+
+    pageNum = getPdfPagesAmount(src)
 
 
     if objpdf.exists('path', src) == False:
@@ -28,17 +32,18 @@ def convertPDF(src:str, tag:str):
         docIds = []
 
         for Img in imgs:
-
+            print('converting to img > text')
             text = image_to_string(
                 Img,
                 lang=Settings().get('pytesseract-lang')
             )
+            print('converted to img > text')
 
             if objtxt.exists('pageOn', len(docIds)) and objtxt.exists('docTag', tag):
                 # check to make sure that page dose not already exists
                 continue
             
-            print(f'adding to: {tag} page {len(docIds)}')
+            print(f'added to: {tag} page {len(docIds)} of {pageNum} ')
             sleepy()
             doc = objtxt.create(
                 tag,
