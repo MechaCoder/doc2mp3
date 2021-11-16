@@ -34,7 +34,7 @@ class Media:
         for doc in track(content, description='converting'):
             fn = join(dirPath, f'{tag}-{doc["pageOn"]}.mp3')
 
-            if ttsEngine == 'gtts':
+            if ttsEngine == 'gtts': 
                 try: #  gtts makes use of the google's tts and may fault becouse there are too many requests over a short space of time
                     tts = gTTS(doc['content'])
                     tts.save(fn)
