@@ -48,4 +48,11 @@ class Pdf(Base):
 
         return row
 
+    def readTags(self):
+        rList = []
+
+        for e in self.readAll():
+            rList.append(e['key'])
+        return rList
+
     

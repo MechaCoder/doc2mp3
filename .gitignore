@@ -2,3 +2,4 @@ play.py
 
 *.json
 *.mp3
+*.pyc

@@ -1,15 +1,18 @@
 from tempfile import TemporaryDirectory
-from time import sleep
 from pdf2image import convert_from_path
 from pytesseract import image_to_string
 
+from rich.progress import track
+
 from doc.data import Pdf, TextData, Settings
-from doc.utills import sleepy
+from doc.utills import sleepy, getPdfPagesAmount
 
 def convertPDF(src:str, tag:str):
 
     objpdf = Pdf()
     objtxt = TextData()
+
+    pageNum = getPdfPagesAmount(src)
 
 
     if objpdf.exists('path', src) == False:
@@ -27,8 +30,7 @@ def convertPDF(src:str, tag:str):
 
         docIds = []
 
-        for Img in imgs:
-
+        for Img in track(imgs, description='processing'):
             text = image_to_string(
                 Img,
                 lang=Settings().get('pytesseract-lang')
@@ -38,7 +40,7 @@ def convertPDF(src:str, tag:str):
                 # check to make sure that page dose not already exists
                 continue
             
-            print(f'adding to: {tag} page {len(docIds)}')
+            print(f'added to: {tag} page {len(docIds)} of {pageNum} ')
             sleepy()
             doc = objtxt.create(
                 tag,
